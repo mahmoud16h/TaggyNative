@@ -7,7 +7,7 @@ export default class App extends React.Component {
     render() {
         return (
            <View style={styles.container}>
-               <View style={styles.buttons}>
+               <View style={[styles.buttons, styles.searchButton]}>
                    <Text style={styles.buttonText}>Search</Text>
                </View>
                <View style={styles.buttons}>
@@ -29,9 +29,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    searchButton: {
+        flexGrow: 1
+    },
     buttons: {
         backgroundColor: '#1a1a1a',
-        flexGrow: 1,
+        flexGrow: 4,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
