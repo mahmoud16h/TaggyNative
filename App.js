@@ -3,6 +3,7 @@ import { StackNavigator} from 'react-navigation';
 import HomeScreen from './screens/homeScreen';
 import PhotoScreen from './screens/photoScreen';
 import TagScreen from './screens/tagScreen';
+import ImageScreen from './screens/imageScreen';
 
 
 export default StackNavigator({
@@ -13,7 +14,10 @@ export default StackNavigator({
             screen: PhotoScreen,
         },
         Tags: {
-            screen: TagScreen
+            screen: TagScreen,
+        },
+        Image: {
+            screen: <ImageScreen />
         }
     },
     {

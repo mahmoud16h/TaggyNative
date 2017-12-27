@@ -11,7 +11,6 @@ class PhotoScreen extends React.Component {
         this.state = {
             hasCameraPermission: false,
             photos : [],
-            showModal : false,
             selectedPhoto: null
         }
     }
@@ -37,27 +36,7 @@ class PhotoScreen extends React.Component {
     handleImageClick = (photo) => {
         console.log(photo);
         this.setState({selectedPhoto : photo, showModal: true});
-    }
-
-    closeModal = () => {
-        this.setState({showModal : false})
-    }
-
-    getModalContent = () => {
-        if(!this.state.showModal) return null;
-        let photo = this.state.selectedPhoto;
-        let uri = photo.node.image.uri;
-        let isLandscape =  photo.node.image.width > photo.node.image.height;
-        let alpha = screenWidth/photo.node.image.width;
-        return(<View style={styles.modal}>
-            <Image
-               style={{
-                   width: screenWidth,
-                   height: photo.node.image.height * alpha
-               }}
-               source={{uri}}/>
-        </View>)
-    }
+    };
 
     render() {
         if (this.state.hasCameraPermission === false) {
@@ -65,12 +44,6 @@ class PhotoScreen extends React.Component {
         } else {
             return (
                <View style={styles.container}>
-                   {this.state.showModal &&
-                   <Modal isVisible={this.state.showModal} onRequestClose={this.closeModal}>
-                       {this.getModalContent()}
-                   </Modal>
-                   }
-
                    <Text>Photos</Text>
                    <ScrollView>
                        <View style={styles.imageHolder}>
