@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
+import { StackNavigator} from 'react-navigation';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
 
-export default class App extends React.Component {
+class HomeScreen extends React.Component {
 
     render() {
         return (
@@ -20,6 +21,19 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default StackNavigator({
+       Home: {
+           screen: HomeScreen,
+       },
+   },
+   {
+       headerMode: 'none',
+       navigationOptions: {
+           headerVisible: false,
+       }
+   }
+);
 
 const styles = StyleSheet.create({
     container: {
