@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image } from 'react-native';
 import {Permissions } from 'expo';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
-const width = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width;
 
 class PhotoScreen extends React.Component {
 
@@ -19,7 +19,7 @@ class PhotoScreen extends React.Component {
         this.setState({ hasCameraPermission: status === 'granted' });
 
         CameraRoll.getPhotos({
-            first: 30,
+            first: 20,
             assetType: 'All'
         })
            .then(response => {
@@ -44,9 +44,7 @@ class PhotoScreen extends React.Component {
                        <View style={styles.imageHolder}>
                            {this.state.photos.map((p, i) => {
                                let uri = p.node.image.uri;
-                               let imageWidth = ((width / p.node.image.width)/ 3) *  p.node.image.width;
-                               console.log(width);
-
+                               let imageWidth = screenWidth / 3;
                                return (<Image
                                      key={i}
                                      style={{
