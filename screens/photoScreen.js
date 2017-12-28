@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image, TouchableHighlight, BackHandler } from 'react-native';
 import {Permissions } from 'expo';
-import {goToPhoto} from '../actions/actions';
+import {grabPhoto} from '../actions/actions';
 import { NavigationActions } from 'react-navigation';
 
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
@@ -10,14 +10,25 @@ const screenWidth = Dimensions.get('window').width;
 
 class PhotoScreen extends React.Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            hasCameraPermission: false,
-            photos : [],
-            selectedPhoto: null
-        }
+    state = {
+        hasCameraPermission: false,
+        photos: [],
+        selectedPhoto: null
+    };
+
+    componentDidMount(){
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress)
     }
+
+    componentWillUnmount(){
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress)
+    }
+
+    onBackPress = () => {
+        console.log(this.props);
+        this.props.navigation.goBack();
+        return true;
+    };
 
     async componentWillMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -37,8 +48,8 @@ class PhotoScreen extends React.Component {
     }
 
     handleImageClick = (photo) => {
-        this.props.goToPhoto(photo);
-        this.props.navigation.dispatch(navigateImage)
+        this.props.grabPhoto(photo);
+        this.props.navigation.navigate('Image')
     };
 
     render() {
@@ -74,14 +85,9 @@ class PhotoScreen extends React.Component {
     }
 }
 
-const navigateImage = NavigationActions.navigate({
-    routeName: 'Image',
-});
-
-
 const mapDispatchToProps = (dispatch) =>{
     return {
-        goToPhoto : (selectedPhoto) => dispatch(goToPhoto(selectedPhoto)),
+        grabPhoto : (selectedPhoto) => dispatch(grabPhoto(selectedPhoto)),
     }
 };
 
