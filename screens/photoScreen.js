@@ -2,7 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image, TouchableHighlight, Modal } from 'react-native';
 import {Permissions } from 'expo';
-import {testAlert} from '../actions/actions'
+import {goToPhoto} from '../actions/actions'
+import { NavigationActions } from 'react-navigation';
 
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
 const screenWidth = Dimensions.get('window').width;
@@ -37,9 +38,8 @@ class PhotoScreen extends React.Component {
     }
 
     handleImageClick = (photo) => {
-        console.log(photo);
-        this.props.testAlert()
-        this.setState({selectedPhoto : photo, showModal: true});
+        this.props.goToPhoto(photo);
+        this.props.navigation.dispatch(navigateImage)
     };
 
     render() {
@@ -75,9 +75,14 @@ class PhotoScreen extends React.Component {
     }
 }
 
+const navigateImage = NavigationActions.navigate({
+    routeName: 'Image',
+});
+
+
 const mapDispatchToProps = (dispatch) =>{
     return {
-        testAlert : () => dispatch(testAlert()),
+        goToPhoto : (selectedPhoto) => dispatch(goToPhoto(selectedPhoto)),
     }
 };
 
@@ -94,9 +99,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap'
     },
-    modal : {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
 });

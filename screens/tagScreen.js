@@ -1,14 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar, AsyncStorage } from 'react-native';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
+import {connect} from 'react-redux'
 
 class TagScreen extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            tags: [],
-        }
-    }
 
     // getTags = (keys)=> {
     //         AsyncStorage.multiGet(keys).then?
@@ -22,7 +17,7 @@ class TagScreen extends React.Component {
             <View style={styles.container}>
                 <View style={styles.container}>
                     <Text>
-                        {this.state.tags.length !== 0 ? this.state.tags : 'You have no saved tags'}
+                        {this.props.tags.length !== 0 ? this.props.tags : 'You have no saved tags'}
                     </Text>
                 </View>
                 {/*<View style={styles.container}>*/}
@@ -34,7 +29,13 @@ class TagScreen extends React.Component {
     }
 }
 
-export default TagScreen;
+const mapStateToProps = (state) =>{
+    return{
+        tags : state.tags
+    }
+};
+
+export default connect(mapStateToProps)(TagScreen);
 
 const styles = StyleSheet.create({
     container: {

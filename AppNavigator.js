@@ -7,8 +7,6 @@ import TagScreen from './screens/tagScreen';
 import ImageScreen from './screens/imageScreen';
 
 
-
-
 const AppWithNavigationState = ({ dispatch, nav }) => (
     <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav})} />
 );
