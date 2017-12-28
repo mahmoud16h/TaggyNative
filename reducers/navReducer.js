@@ -7,7 +7,6 @@ const initialNavState = AppNavigator.router.getStateForAction(NavigationActions.
 
 
 const nav = (state = initialNavState, action) => {
-
     const nextState = AppNavigator.router.getStateForAction(action, state);
     return nextState || state
 };

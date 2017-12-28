@@ -2,8 +2,8 @@ import React from 'react';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import allReducers from './reducers';
-import AppWithNavigationState from './AppNavigator.js'
 import { AppRegistry } from 'react-native';
+import AppWithNavigationState from './AppNavigator.js'
 
 class App extends React.Component {
 

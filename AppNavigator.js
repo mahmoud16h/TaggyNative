@@ -1,11 +1,11 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import {connect} from 'react-redux';
+import { StackNavigator, addNavigationHelpers } from 'react-navigation';
 import HomeScreen from './screens/homeScreen';
 import PhotoScreen from './screens/photoScreen';
 import TagScreen from './screens/tagScreen';
 import ImageScreen from './screens/imageScreen';
-import { addNavigationHelpers } from 'react-navigation';
-import {connect} from 'react-redux';
+
 
 
 
