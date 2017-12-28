@@ -10,7 +10,6 @@ class ImageScreen extends React.Component {
         let uri = photo.node.image.uri;
         let alpha = screenWidth / photo.node.image.width;
 
-
         return(<View style={styles.container}>
                 <Image style={{
                     width: screenWidth,

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image, TouchableHighlight, Modal } from 'react-native';
 import {Permissions } from 'expo';
-import {goToPhoto} from '../actions/actions'
+import {goToPhoto} from '../actions/actions';
 import { NavigationActions } from 'react-navigation';
 
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
@@ -28,7 +28,6 @@ class PhotoScreen extends React.Component {
             assetType: 'All'
         })
            .then(response => {
-               console.log(response);
                this.setState({ text: "done", photos: response.edges });
 
            })
