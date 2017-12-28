@@ -1,6 +1,9 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { StyleSheet, Text, View, Platform, StatusBar, Dimensions, ScrollView, CameraRoll, Image, TouchableHighlight, Modal } from 'react-native';
 import {Permissions } from 'expo';
+import {testAlert} from '../actions/actions'
+
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
 const screenWidth = Dimensions.get('window').width;
 
@@ -35,6 +38,7 @@ class PhotoScreen extends React.Component {
 
     handleImageClick = (photo) => {
         console.log(photo);
+        this.props.testAlert()
         this.setState({selectedPhoto : photo, showModal: true});
     };
 
@@ -71,7 +75,13 @@ class PhotoScreen extends React.Component {
     }
 }
 
-export default PhotoScreen;
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        testAlert : () => dispatch(testAlert()),
+    }
+};
+
+export default connect(null, mapDispatchToProps)(PhotoScreen);
 
 const styles = StyleSheet.create({
     container: {

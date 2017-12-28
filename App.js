@@ -1,30 +1,24 @@
 import React from 'react';
-import { StackNavigator} from 'react-navigation';
-import HomeScreen from './screens/homeScreen';
-import PhotoScreen from './screens/photoScreen';
-import TagScreen from './screens/tagScreen';
-import ImageScreen from './screens/imageScreen';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import allReducers from './reducers';
+import AppWithNavigationState from './AppNavigator.js'
+import { AppRegistry } from 'react-native';
 
+class App extends React.Component {
 
-export default StackNavigator({
-        Home: {
-            screen: HomeScreen,
-        },
-        Photos: {
-            screen: PhotoScreen,
-        },
-        Tags: {
-            screen: TagScreen,
-        },
-        Image: {
-            screen: <ImageScreen />
-        }
-    },
-    {
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
+    store = createStore(allReducers);
+
+    render() {
+        return (
+            <Provider store={this.store}>
+                <AppWithNavigationState />
+            </Provider>
+        );
     }
-);
+}
 
+
+AppRegistry.registerComponent('TaggyNative', () => App);
+
+export default App;

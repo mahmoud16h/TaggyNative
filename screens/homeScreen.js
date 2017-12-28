@@ -1,25 +1,34 @@
 import React from 'react';
 import { StyleSheet, Text, View, Platform, StatusBar, TouchableHighlight } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
 
 class HomeScreen extends React.Component {
 
     render() {
         return (
-           <View style={styles.container}>
-               <View style={[styles.buttons, styles.searchButton]}>
-                   <Text style={styles.buttonText}>Search</Text>
-               </View>
-               <TouchableHighlight style={styles.buttons} onPress={() => this.props.navigation.navigate('Photos')}>
-                       <Text style={styles.buttonText}>Photos</Text>
-               </TouchableHighlight>
-               <TouchableHighlight style={styles.buttons} onPress={() => this.props.navigation.navigate('Tags')}>
-                   <Text style={styles.buttonText}>Tags</Text>
-               </TouchableHighlight>
-           </View>
+            <View style={styles.container}>
+                <View style={[styles.buttons, styles.searchButton]}>
+                    <Text style={styles.buttonText}>Search</Text>
+                </View>
+                <TouchableHighlight style={styles.buttons} onPress={() => this.props.navigation.dispatch(navigatePhotos) }>
+                    <Text style={styles.buttonText}>Photos</Text>
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.buttons} onPress={() => this.props.navigation.dispatch(navigateTags)}>
+                    <Text style={styles.buttonText}>Tags</Text>
+                </TouchableHighlight>
+            </View>
         );
     }
 }
+
+const navigatePhotos = NavigationActions.navigate({
+    routeName: 'Photos',
+});
+
+const navigateTags = NavigationActions.navigate({
+    routeName: 'Tags',
+});
 
 export default HomeScreen;
 
