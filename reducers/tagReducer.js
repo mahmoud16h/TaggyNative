@@ -1,4 +1,4 @@
-const tagReducer = (state = [], action) => {
+const tagReducer = (state = ['Lebanon', 'Barcelona', 'Thailand', 'Mus', 'Muk'], action) => {
 
     return state
 }
