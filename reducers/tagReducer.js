@@ -1,6 +1,6 @@
-const tagReducer = (state = ['this', 'that', 'hello'], action) => {
+const tagReducer = (state = [], action) => {
 
-return state
-    }
+    return state
+}
 
 export default tagReducer
