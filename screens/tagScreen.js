@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform, StatusBar, AsyncStorage, Button,TextInput, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, Platform, StatusBar, AsyncStorage, Button,TextInput, TouchableOpacity,TouchableWithoutFeedback, Keyboard} from 'react-native';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
-import {connect} from 'react-redux'
 
 class TagScreen extends React.Component {
     constructor(props) {
@@ -16,19 +15,19 @@ class TagScreen extends React.Component {
                     array.push(tag);
                     this.setState({storedTags: array, filteredTags: array});
                 });
-                }
+            }
             )
         );
     }
 
     getTags = ()=>{
-        return  this.state.filteredTags.map((tag, i) => {
+        return  this.state.filteredTags.sort().map((tag, i) => {
             return (
-                <View key={i}>
+                <View key={i} style={styles.tagsContainer}>
                     <Text style={styles.tags}>
                         {tag}
                     </Text>
-                    <Button title='X' onPress={() => {this.deleteTag(tag)}}/>
+                    <Button title='x' onPress={() => {this.deleteTag(tag)}}/>
                 </View>
             )
         })
@@ -42,13 +41,31 @@ class TagScreen extends React.Component {
     };
 
     saveTag = () =>{
+        Keyboard.dismiss();
         let tagToSave = this.state.text;
-        this.state.storedTags.push(tagToSave);
+        let array = this.state.storedTags;
+        array.push(tagToSave);
+        this.setState({text: '', filteredTags: array});
         AsyncStorage.setItem(tagToSave, tagToSave);
     };
 
     deleteTag = (remove) =>{
         AsyncStorage.removeItem(remove);
+        //need to also delete tag from state so page updates
+    };
+
+    clearSearch = ()=>{
+        this.setState({text: '', filteredTags: this.state.storedTags})
+    };
+
+    clearButton = () =>{
+        if(this.state.text !== '')
+            return (<Button title='Clear' onPress={this.clearSearch}/>)
+    };
+
+    saveButton = () =>{
+        if(this.state.text !== '')
+            return (<Button title='Save' onPress={this.saveTag}/>)
     };
 
     render() {
@@ -57,14 +74,14 @@ class TagScreen extends React.Component {
                 <View style={styles.container}>
                     <View style={styles.container}>
                         <View>
+                            {this.clearButton()}
                             <TextInput
                                 style={styles.inputStyle}
                                 onChangeText={(text) => this.filterTags(text)}
-                                placeholder="Search tags"
+                                placeholder='Search...'
                                 value={this.state.text}
                             />
-                            <Button title='Save tag' onPress={this.saveTag}/>
-                            <Text>{this.state.text}</Text>
+                            {this.saveButton()}
                         </View>
                         {this.getTags()}
                     </View>
@@ -74,13 +91,7 @@ class TagScreen extends React.Component {
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        tags : state.tags
-    }
-};
-
-export default connect(mapStateToProps)(TagScreen);
+export default TagScreen;
 
 const styles = StyleSheet.create({
         container: {
@@ -89,17 +100,32 @@ const styles = StyleSheet.create({
             backgroundColor: '#fff',
             alignItems: 'center',
             justifyContent: 'center',
+            width: '100%'
         },
         tags: {
-            backgroundColor: "black",
-            color: 'whitesmoke',
+            color: 'black',
             fontSize: 30,
+        },
+        tagsContainer: {
+            flexDirection: 'row',
+            height: 40,
+            justifyContent: 'center',
+            margin: 4,
+            padding: 3,
+            borderRadius: 4,
+            borderWidth: 1,
+            borderColor: 'black',
+            alignItems: 'center',
         },
         inputStyle: {
             height: 40,
-            width:'100%',
+            width: 100,
             borderColor: 'black',
             borderWidth: 1,
-            backgroundColor: 'red'}
+            backgroundColor: 'whitesmoke',
+            padding: '2%',
+            borderRadius: 40,
+            margin: 10
+        }
     }
 );
