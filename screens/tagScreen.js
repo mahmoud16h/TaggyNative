@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         container: {
             marginTop: statusBarHeight,
             flex: 1,
-            backgroundColor: '#fff',
+            backgroundColor: '#1a1a1a',
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%'
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
             padding: 3,
             borderRadius: 4,
             borderWidth: 1,
+            backgroundColor: 'whitesmoke',
             borderColor: 'black',
             alignItems: 'center',
         },
