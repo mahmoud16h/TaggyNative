@@ -1,32 +1,55 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform, StatusBar, AsyncStorage, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Platform, StatusBar, AsyncStorage, Button,TextInput, TouchableWithoutFeedback, Keyboard} from 'react-native';
 const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight: 20;
 import {connect} from 'react-redux'
 
 class TagScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { text: '', filteredTags: this.props.tags};
+        this.state = { text: '', storedTags: [], filteredTags: []};
+    }
+
+    async componentWillMount() {
+        let array = [];
+        Promise.all(AsyncStorage.getAllKeys().then(tagsArray => {
+                return tagsArray.map(tag => {
+                    array.push(tag);
+                    this.setState({storedTags: array, filteredTags: array});
+                });
+                }
+            )
+        );
     }
 
     getTags = ()=>{
-        return this.state.filteredTags.sort().map((tag, i)=>{
-                return(
-                    <Text key={i} style={styles.tags} >
+        return  this.state.filteredTags.map((tag, i) => {
+            return (
+                <View key={i}>
+                    <Text style={styles.tags}>
                         {tag}
                     </Text>
-                )
-            }
-        )
+                    <Button title='X' onPress={() => {this.deleteTag(tag)}}/>
+                </View>
+            )
+        })
     };
 
     filterTags = (text)=> {
-        let filteredTags = this.props.tags.filter((el) => {
-           return el.toLowerCase().indexOf(text.toLowerCase()) > -1
+        let filteredTags = this.state.storedTags.filter((tags) => {
+            return tags.toLowerCase().indexOf(text.toLowerCase()) > -1
         });
         this.setState({text, filteredTags});
     };
 
+    saveTag = () =>{
+        let tagToSave = this.state.text;
+        this.state.storedTags.push(tagToSave);
+        AsyncStorage.setItem(tagToSave, tagToSave);
+    };
+
+    deleteTag = (remove) =>{
+        AsyncStorage.removeItem(remove);
+    };
 
     render() {
         return (
@@ -40,6 +63,7 @@ class TagScreen extends React.Component {
                                 placeholder="Search tags"
                                 value={this.state.text}
                             />
+                            <Button title='Save tag' onPress={this.saveTag}/>
                             <Text>{this.state.text}</Text>
                         </View>
                         {this.getTags()}
